@@ -1,0 +1,32 @@
+{
+  "name": "jsacademy-test1",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "backbone.localstorage": "^1.1.16",
+    "backbone.marionette": "^2.4.4",
+    "bootstrap": "^3.3.6",
+    "google-maps": "^3.2.1",
+    "jquery": "^2.2.0",
+    "requirejs": "^2.1.22",
+    "text": "github:requirejs/text",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-inject": "^3.0.0",
+    "gulp-less": "^3.0.5",
+    "gulp-requirejs-optimize": "^0.3.1",
+    "gulp-shell": "^0.5.2",
+    "require-dir": "^0.3.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/gulp unit",
+    "build": "./node_modules/.bin/gulp build",
+    "watch": "./node_modules/.bin/gulp watch"
+  },
+  "author": "",
+  "license": "ISC"
+}

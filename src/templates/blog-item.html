@@ -1,0 +1,10 @@
+<span class="badge"><%- postCount %></span>
+<%- title %>
+<div>
+  <!--   <button class="btn btn-info btn-xs js_follow">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        Follow
+    </button> -->
+    <span class="label <%- (geoFound)? 'label-success' : 'label-danger'%> js_geo-label">Geo tags found: <%- geoFound %></span>
+    <span class="label <%- (status === 'done')? 'label-warning' : 'label-danger'%>">Scanned posts: <%= getScannedPercent() %></span>
+</div>

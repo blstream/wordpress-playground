@@ -1,0 +1,14 @@
+{
+    "baseUrl": "./src/js",
+    "optimize": "uglify2",
+    "paths": {
+        "jquery": "../../node_modules/jquery/dist/jquery.min",
+        "backbone": "../../node_modules/backbone/backbone-min",
+        "marionette": "../../node_modules/backbone.marionette/lib/backbone.marionette.min",
+        "underscore": "../../node_modules/underscore/underscore-min",
+        "templates": "../templates",
+        "text" : "../../node_modules/text/text",
+        "localstorage": "../../node_modules/backbone.localstorage/backbone.localStorage-min",
+        "google-maps": "../../node_modules/google-maps/lib/Google.min"
+    }
+}
