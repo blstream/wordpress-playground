@@ -1,27 +1,9 @@
 var gulp = require('gulp'),
     inject = require('gulp-inject'),
     clean = require('gulp-clean'),
-    less = require('gulp-less'),
-    requirejsOptimize = require('gulp-requirejs-optimize'),
-    requireDistConfig = require("./src/requirejs.conf.json"),
-    paths = {
-        dist: "./dist/",
-        tmp: ".tmp/",
-        src: "./src/"
-    };
+    less = require('gulp-less');
 
 require('require-dir')('./gulp');
- 
-gulp.task("scripts-dist", ["clean-scripts"], function () {
-    return gulp.src(paths.src + "js/main.js")
-        .pipe(requirejsOptimize(requireDistConfig))
-        .pipe(gulp.dest(paths.dist + "js"));
-});
-
-gulp.task("clean-scripts", function () {
-    return gulp.src(paths.dist + "**/*.js", {read: false})
-        .pipe(clean());
-});
 
 gulp.task("less", ["clean-css"], function () {
     return gulp.src(paths.src + "/less/**/*.less")
