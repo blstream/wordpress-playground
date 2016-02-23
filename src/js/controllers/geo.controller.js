@@ -11,6 +11,12 @@ define([
             this.mainLayout = this.getOption("mainLayout");
             this.blogsCollection = new Backbone.Collection();
             this.geoData = {};
+
+            this.blogsCollection.on("add", function (blogModel, collection) {
+                console.log("on blogs add", arguments);
+                this._loadPostsCount(blogModel)
+                .done(_.bind(this._loadPosts, this));
+            }, this);
         },
 
         onDestroy: function () {
@@ -26,30 +32,35 @@ define([
             
         },
 
-        _loadPosts: function (blogModel, postsOffset) {
-            postsOffset = postsOffset || 0;
+        _loadPosts: function (blogModel, postsPage) {
+            postsPage = postsPage || 0;
 
-            var siteId = blogModel.get("blog_id");
+            var siteId = blogModel.get("blog_id"),
+                postsPerPage = 50,
+                postsScanned;
 
-            api.getGeoPostsInfo(siteId, postsOffset)
+            api.getGeoPostsInfo(siteId, postsPage, postsPerPage)
             .then(function (response) {
                 var posts = response[0].posts,
                     geoData = _.filter(posts, function (post) {
                         return !!post.geo;
-                    });
+                    }),
+                    postsScanned = blogModel.get("scannedPosts") + response[0].posts.length;
                 
                 blogModel.set({
-                    "scannedPosts": postsOffset,
+                    "scannedPosts": postsScanned,
                     "geoData": blogModel.get("geoData").concat(geoData)
                 });
+
+                response[0].scannedPosts = postsScanned;
 
                 return response;
             })
             .then(_.bind(function (response) {
-                
-                if (postsOffset < response[0].found) {
-                    postsOffset += 10;
-                    this._loadPosts(blogModel, postsOffset);
+                console.log(response[0].found, response[0].scannedPosts, postsPage);
+                if (response[0].scannedPosts < response[0].found) {
+                    postsPage++;
+                    this._loadPosts(blogModel, postsPage);
                 } else {
                     blogModel.set("status", "done");
                 }
@@ -60,19 +71,18 @@ define([
         _loadBlogs: function (collection) {
 
             return api.getRecommendationBlogs()
-            .then(_.bind(function (response) {
-                var newBlogs = response.blogs;
+            .done(function (response) {
+                var blogsArr = response.blogs;
+                
+                // set blogs id to perform smart collection update
+                blogsArr.forEach(function (blog) {
+                    blog.id = blog.blog_id;
+                });
 
-                collection.reset(response.blogs);
-
-                collection.forEach(function (blogModel) {
-
-                    this._loadPostsCount(blogModel)
-                    .done(_.bind(this._loadPosts, this));
-
-                }, this);
-            }, this));
+                collection.add(response.blogs);
+            });
         },
+
         start: function () {
             var blogsListView = this.getBlogsListView();
 
@@ -87,13 +97,12 @@ define([
                 collection: this.blogsCollection
             });
 
-            this.listenTo(blogsListView, "refresh", function () {
+            this.listenTo(blogsListView, "get-more-blogs", function () {
                 this._loadBlogs(this.blogsCollection);
             });
 
             this.listenTo(blogsListView, "show:geo-map", function (geoData) {
                 if (!_.isEmpty(geoData)) {
-                    console.log("show map!!!!", geoData);
                     this.showMap(geoData);
                 }
             });

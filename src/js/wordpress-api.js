@@ -39,9 +39,9 @@ define([
             return get(url);
         },
 
-        getGeoPostsInfo: function (siteId, nextPage) {
+        getGeoPostsInfo: function (siteId, nextPage, postsPerPage) {
             nextPage = nextPage || 0;
-            var url = "https://public-api.wordpress.com/rest/v1.1/sites/" + siteId + "/posts?fields=geo&offset=" + nextPage ;
+            var url = "https://public-api.wordpress.com/rest/v1.1/sites/" + siteId + "/posts?fields=geo&number=" + postsPerPage + "&page=" + nextPage ;
             return get(url);
         },
 

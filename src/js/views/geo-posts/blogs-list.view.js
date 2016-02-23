@@ -11,7 +11,7 @@ define([
         childViewContainer: ".list-container",
 
         ui: {
-            getMoreBtn: "js_refresh"
+            getMoreBtn: ".js_get-more"
         },
         
         childEvents: {
@@ -25,9 +25,8 @@ define([
 
         events: {
             "click @ui.getMoreBtn": function () {
-                this.trigger("refresh");
+                this.trigger("get-more-blogs");
             }
         }
-
     });
-})
+});
