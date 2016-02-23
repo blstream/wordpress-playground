@@ -57,15 +57,17 @@ define([
             return authorizedGet(url);
         },
 
-        setAuth: function (token, expires, type, siteId) {
-            authInfo.set({
-                accessToken: token,
-                expiresIn: expires,
-                type: type,
-                siteId: siteId
-            });
+        setAuth: function (data, successCb, errorCb) {
 
-            authInfo.save();
+            authInfo.save({
+                accessToken: data.token,
+                expiresIn: data.expires,
+                type: data.type,
+                siteId: data.siteId
+            }, {
+                success: successCb,
+                error: errorCb
+            });
         },
 
         getToken: function () {
@@ -77,8 +79,19 @@ define([
             window.location = url;
         },
 
+        removeToken: function (callback) {
+            authInfo.set(authInfo.defaults)
+            authInfo.save({}, {
+                success: callback
+            });
+        },
+
         isAuthorized: function () {
             return authInfo.get("accessToken") !== null;
+        },
+
+        listenForToken: function (callback) {
+            authInfo.on("change:accessToken", callback);
         },
 
         init: function () {

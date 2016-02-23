@@ -37,7 +37,7 @@ gulp.task("vendor-css", function () {
 });
 
 gulp.task("watch", ["watch-tasks"], function () {
-    gulp.watch("./src/js/**/*.js", ["scripts-dist"]);
+    gulp.watch(["./src/js/**/*.js", "./src/templates/**/*.html"], ["scripts-dist"]);
     gulp.watch("./src/less/**/*.less", ["less"]);
 });
 

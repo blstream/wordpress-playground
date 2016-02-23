@@ -6,7 +6,7 @@ define([
 ], function (Marionette, _, MainMenuView, mainLayoutHtml) {
 
     return Marionette.LayoutView.extend({
-        className: "container",
+        className: "container main-layout",
         template: _.template(mainLayoutHtml),
         regions: {
             topRegion: ".top-region",

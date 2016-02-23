@@ -11,10 +11,35 @@ define([
             authorizeBtn: ".js_authorize"
         },
 
-        onAttach: function () {
-            if (api.isAuthorized()) {
-                this.ui.authorizeBtn.addClass("btn-primary").text("Authorized");
+        events: {
+            "click @ui.authorizeBtn": function (e) {
+                if (api.isAuthorized()) {
+                    e.preventDefault();
+                    api.removeToken();
+                }
             }
+        },
+
+        initialize: function () {
+            api.listenForToken(_.bind(function () {
+                this.toggleSigning();
+            }, this));
+        },
+
+        setSignOut: function () {
+            this.ui.authorizeBtn.addClass("btn-primary").removeClass("btn-default").text("Sign out");
+        },
+
+        setSignIn: function () {
+            this.ui.authorizeBtn.addClass("btn-default").removeClass("btn-primary").text("Sign In");
+        },
+
+        toggleSigning: function () {
+            this[api.isAuthorized() ? "setSignOut" : "setSignIn"]();
+        },
+
+        onAttach: function () {
+            this.toggleSigning();
         }
     });
 });

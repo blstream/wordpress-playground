@@ -1,7 +1,8 @@
 define([
     "marionette",
+    "underscore",
     "wordpress-api"
-], function (Marionette, api) {
+], function (Marionette, _, api) {
     return Marionette.AppRouter.extend({
         appRoutes: {
             "": "startPage",
@@ -18,8 +19,17 @@ define([
         },
 
         accessToken: function (token, expires, type, siteId) {
-            api.setAuth(token, expires, type, siteId);
-            this.navigate("", {trigger: true, replace: true});
+            api.setAuth({
+                token: token,
+                expires: expires,
+                type: type,
+                siteId: siteId
+            }, _.bind(function () {
+                this.navigate("", {trigger: true, replace: true});
+            }, this), function () {
+                throw "Error while processing authorization data!";
+            });
+
         }
     });
 });
