@@ -27,6 +27,6 @@
     "build": "./node_modules/.bin/gulp build",
     "watch": "./node_modules/.bin/gulp watch"
   },
-  "author": "",
+  "author": "arek czogala",
   "license": "ISC"
 }

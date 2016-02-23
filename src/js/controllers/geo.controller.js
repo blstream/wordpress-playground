@@ -79,7 +79,7 @@ define([
                     blog.id = blog.blog_id;
                 });
 
-                collection.add(response.blogs);
+                collection.add(blogsArr);
             });
         },
 

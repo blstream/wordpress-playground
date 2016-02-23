@@ -10,6 +10,6 @@ gulp.task("scripts-dist", ["clean-scripts"], function () {
 });
 
 gulp.task("clean-scripts", function () {
-    return gulp.src(paths.dist + "**/*.js", {read: false})
+    return gulp.src([paths.dist + "**/*.js", "!" + paths.dist + "vendor/*.js"], {read: false})
         .pipe(clean());
 });

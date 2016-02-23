@@ -1,9 +1,9 @@
-var gulp = require('gulp'),
-    inject = require('gulp-inject'),
-    clean = require('gulp-clean'),
-    less = require('gulp-less');
+var gulp = require("gulp"),
+    inject = require("gulp-inject"),
+    clean = require("gulp-clean"),
+    less = require("gulp-less");
 
-require('require-dir')('./gulp');
+require("require-dir")("./gulp");
 
 gulp.task("less", ["clean-css"], function () {
     return gulp.src(paths.src + "/less/**/*.less")
@@ -26,16 +26,21 @@ gulp.task("vendor-js", ["clean-vendor-js"], function () {
         .pipe(gulp.dest(paths.dist + "js/vendor"));
 });
 
-gulp.task("vendor-css", function () {
-    return gulp.src(paths.src + "css/vendor/**/*.*")
-        .pipe(gulp.dest(paths.dist + "css/vendor"));
-});
-
 gulp.task("clean-vendor-js", function () {
     return gulp.src(paths.dist + "js/vendor/*.js", {read: false})
         .pipe(clean());
 });
 
+gulp.task("vendor-css", function () {
+    return gulp.src(paths.src + "css/vendor/**/*.*")
+        .pipe(gulp.dest(paths.dist + "css/vendor"));
+});
+
+gulp.task("watch", ["watch-tasks"], function () {
+    gulp.watch("./src/js/**/*.js", ["scripts-dist"]);
+    gulp.watch("./src/less/**/*.less", ["less"]);
+});
+
 gulp.task("build", ["build-tasks"]);
 gulp.task("build-tasks", ["vendor-js", "vendor-css", "scripts-dist", "less", "html-index"]);
-
+gulp.task("watch-tasks", ["vendor-js", "vendor-css", "scripts-dist", "less", "html-index"]);
