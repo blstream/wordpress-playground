@@ -3,13 +3,15 @@ define([
     "underscore",
     "wordpress-api",
     "views/geo-posts/blogs-list.view",
-    "views/geo-posts/map.view"
-], function (Marionette, _, api, BlogsListView, MapView) {
+    "views/geo-posts/map.view",
+    "collections/blogs.collection"
+], function (Marionette, _, api, BlogsListView, MapView, BlogsCollection) {
+    
     return Marionette.Object.extend({
 
         initialize: function () {
             this.mainLayout = this.getOption("mainLayout");
-            this.blogsCollection = new Backbone.Collection();
+            this.blogsCollection = new BlogsCollection();
             this.geoData = {};
 
             this.blogsCollection.on("add", function (blogModel, collection) {
