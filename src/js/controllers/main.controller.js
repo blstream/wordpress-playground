@@ -3,8 +3,9 @@ define([
     "backbone",
     "underscore",
     "controllers/geo.controller",
+    "controllers/start.controller",
     "views/auth-info.view"
-], function (Marionette, Backbone, _, GeoController, AuthInfoView) {
+], function (Marionette, Backbone, _, GeoController, StartController, AuthInfoView) {
     return Marionette.Object.extend({
 
         initialize: function () {
@@ -12,7 +13,11 @@ define([
         },
 
         startPage: function () {
-            
+            var startController = new StartController({
+                mainLayout: this.mainLayout
+            });
+
+            startController.start();
         },
 
         // Start geoPost subapp
