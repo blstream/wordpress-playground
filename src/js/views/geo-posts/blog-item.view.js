@@ -14,7 +14,7 @@ define([
         },
 
         triggers: {
-            "click": "show:map"
+            "click": "click"
         },
 
         templateHelpers: function () {
@@ -35,7 +35,7 @@ define([
                 scannedPosts: 0,
                 geoFound: 0,
                 geoData: [],
-                status: "pending"
+                status: "ready"
             }, {silent: true});
 
             this.model.on("change:geoFound change:status change:postCount change:scannedPosts", this.render);

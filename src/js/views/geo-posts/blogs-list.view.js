@@ -15,17 +15,23 @@ define([
         },
         
         childEvents: {
-            "show:map": function (e, childView) {
-                if (childView.model.get("status") === "done") {
-                    console.log("child clicked", arguments)
-                    this.trigger("show:geo-map", childView.model.get("geoData"));
+            "click": function (e, childView) {
+                switch (childView.model.get("status")) {
+                    case "ready": 
+                        childView.model.set("status", "pending")
+                        this.trigger("get:blog-posts", childView.model);
+                        
+                    break;
+                    case "done": 
+                        this.trigger("show:map", childView.model.get("geoData"));
+                    break;
                 }
             }
         },
 
         events: {
             "click @ui.getMoreBtn": function () {
-                this.trigger("get-more-blogs");
+                this.trigger("get:more-blogs");
             }
         }
     });

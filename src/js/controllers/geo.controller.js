@@ -19,12 +19,6 @@ define([
 
             this.blogsCollection = new BlogsCollection();
             this.geoData = {};
-
-            this.blogsCollection.on("add", function (blogModel, collection) {
-                console.log("on blogs add", arguments);
-                this._loadPostsCount(blogModel)
-                .done(_.bind(this._loadPosts, this));
-            }, this);
         },
 
         onDestroy: function () {
@@ -105,7 +99,7 @@ define([
                 collection: this.blogsCollection
             });
 
-            this.listenTo(blogsListView, "get-more-blogs", function () {
+            this.listenTo(blogsListView, "get:more-blogs", function () {
                 this._loadBlogs(this.blogsCollection);
             });
 
@@ -113,6 +107,12 @@ define([
                 if (!_.isEmpty(geoData)) {
                     this.showMap(geoData);
                 }
+            });
+
+            this.listenTo(blogsListView, "get:blog-posts", function (blogModel) {
+                console.log("on blogs add", arguments);
+                this._loadPostsCount(blogModel)
+                .done(_.bind(this._loadPosts, this));
             });
 
             return blogsListView;
