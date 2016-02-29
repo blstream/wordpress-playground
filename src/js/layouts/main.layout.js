@@ -10,8 +10,7 @@ define([
         template: _.template(mainLayoutHtml),
         regions: {
             topRegion: ".top-region",
-            leftColumnRegion: ".left-column-region",
-            rightColumnRegion: ".right-column-region"
+            "mainRegion": "main"
         },
 
         initialize: function () {

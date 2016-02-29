@@ -3,6 +3,7 @@
 * Clone this repository.
 * npm install
 * npm run build
+* npm run watch
 
 (tmp: point youre server at ./dist)
 

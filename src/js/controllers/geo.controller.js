@@ -4,13 +4,19 @@ define([
     "wordpress-api",
     "views/geo-posts/blogs-list.view",
     "views/geo-posts/map.view",
-    "collections/blogs.collection"
-], function (Marionette, _, api, BlogsListView, MapView, BlogsCollection) {
+    "collections/blogs.collection",
+    "views/geo-posts/geo-layout.view"
+], function (Marionette, _, api, BlogsListView, MapView, BlogsCollection, GeoLayout) {
     
     return Marionette.Object.extend({
 
         initialize: function () {
-            this.mainLayout = this.getOption("mainLayout");
+            this.mainLayout = new GeoLayout();
+            
+            this.getOption("mainLayout")
+            .getRegion("mainRegion")
+            .show(this.mainLayout);
+
             this.blogsCollection = new BlogsCollection();
             this.geoData = {};
 

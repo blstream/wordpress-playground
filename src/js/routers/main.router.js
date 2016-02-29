@@ -11,7 +11,7 @@ define([
 
         routes: {
             "authorize": "authorizeUser",
-            'access_token=:token&expires_in=:expires&token_type=:type&site_id=:siteId': "accessToken"
+            "access_token=:token&expires_in=:expires&token_type=:type&site_id=:siteId": "accessToken"
         },
 
         authorizeUser: function () {
@@ -30,6 +30,16 @@ define([
                 throw "Error while processing authorization data!";
             });
 
+        },
+
+        execute: function (callback, args, name) {
+            var apiAuthorized = api.isAuthorized(),
+                needsAuthToken = ["geoPosts"];
+
+            if (needsAuthToken.indexOf(name) !== -1 && !apiAuthorized) {
+                return this.getOption("controller").showNoAuthTokenInfo();
+            }
+            return callback.apply(this, args);
         }
     });
 });
